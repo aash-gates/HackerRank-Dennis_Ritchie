@@ -1,22 +1,19 @@
 #include <stdio.h>
+#include <string.h>
+#include <math.h>
 #include <stdlib.h>
-int main()
-{
-    int num, *arr, i;
-    scanf("%d", &num);
-    arr = (int*) malloc(num * sizeof(int));
-    for(i = 0; i < num; i++) {
-        scanf("%d", arr + i);
+int main() {
+    char *s;
+    s = malloc(1024 * sizeof(char));
+    scanf("%[^\n]", s);
+    s = realloc(s, strlen(s) + 1);
+    //Write your logic to print the tokens of the sentence here.
+    for (char *c = s; *c != NULL; c++) {
+    if (*c == ' ') {
+        *c = '\n';
     }
-     /* Write the logic to reverse the array. */
-    int temp;
-    for (i = 0; i < num / 2; i++) {
-        temp = (int) *(arr + num - i - 1);
-        *(arr + num - i - 1) = *(arr + i);
-        *(arr + i) = temp;
-    }    
+}
+printf("%s", s);
     
-    for(i = 0; i < num; i++)
-        printf("%d ", *(arr + i));
     return 0;
 }
