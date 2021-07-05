@@ -1,64 +1,83 @@
+/*Dynamic Array in C - Hacker Rank Solution*/
 #include <stdio.h>
 #include <stdlib.h>
 
-int* book; //This stores the total number of books in each shelf.
+/*
+ * This stores the total number of books in each shelf.
+ */
+int* total_number_of_books;
 
-int** page;// This stores the total number of pages in each book of each shelf. The rows represent the shelves and the columns represent the books.
-
+/*
+ * This stores the total number of pages in each book of each shelf.
+ * The rows represent the shelves and the columns represent the books.
+ */
+int** total_number_of_pages;
 int main()
 {
-    int shelf;
-    scanf("%d", &shelf);
+    int total_number_of_shelves;
+    scanf("%d", &total_number_of_shelves);
 
-    int query;
-    scanf("%d", &query);
+    total_number_of_books = calloc(total_number_of_shelves, sizeof(int));
 
-    book = (int*)malloc(sizeof(int)*shelf);
-    page = (int**)malloc(sizeof(int*)*shelf);
+    int total_number_of_queries;
+    scanf("%d", &total_number_of_queries);
 
-    for(int i = 0; i < shelf; i++)
+    total_number_of_pages = malloc(total_number_of_shelves * sizeof(int *));
+    for (int i = 0; i < total_number_of_shelves; i++) 
     {
-        book[i] = 0;
-        page[i] = (int*)malloc(sizeof(int));
+        total_number_of_pages[i] = calloc(1100, sizeof(int));
     }
 
-    while (query--)
+    while (total_number_of_queries--) 
     {
         int type_of_query;
         scanf("%d", &type_of_query);
 
-        if (type_of_query == 1)
+        if (type_of_query == 1) 
+        {
+            /*
+             * Process the query of first type here.
+             */
+            int shelf, pages;
+            scanf("%d %d", &shelf, &pages);
+            total_number_of_books[shelf]++;
+            int *book = total_number_of_pages[shelf];
+            while (*book != 0)
+                book++;
+            *book = pages;
+        } 
+        else if (type_of_query == 2) 
         {
             int x, y;
             scanf("%d %d", &x, &y);
-            book[x] += 1;
-            page[x] = realloc(page[x], book[x]*sizeof(int));
-            page[x][book[x] - 1] = y;
-
-        }
-        else if (type_of_query == 2)
-        {
-            int x, y;
-            scanf("%d %d", &x, &y);
-            printf("%d\n", page[x][y]);
-        }
-        else
+            printf("%d\n", *(*(total_number_of_pages + x) + y));
+        } 
+        else 
         {
             int x;
             scanf("%d", &x);
-            printf("%d\n", book[x]);
+            printf("%d\n", *(total_number_of_books + x));
         }
     }
 
-    if (book)
-        free(book);
-        
-    for (int i = 0; i < shelf; i++)
-        if (page[i])
-            free(page[i]);
-            
-    if (page)
-        free(page);
-
+    if (total_number_of_books) 
+    {
+        free(total_number_of_books);
+    }
+    
+    for (int i = 0; i < total_number_of_shelves; i++) 
+    {
+        if (*(total_number_of_pages + i)) 
+        {
+            free(*(total_number_of_pages + i));
+        }
+    }
+    
+    if (total_number_of_pages) 
+    {
+        free(total_number_of_pages);
+    }
+    
     return 0;
 }
+
